@@ -1,0 +1,24 @@
+const express=require('express');
+const cors=require('cors')
+const router=require('../src/routes/auth.routes');
+const cookieParser = require('cookie-parser');
+const interviewRouter = require('./routes/interview.routes');
+
+const app=express();
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors(
+    {origin:"http://localhost:5173",
+    credentials:true}
+))
+
+
+
+
+app.use("/api/auth",router);
+app.use("/api/interview",interviewRouter);
+
+
+
+module.exports=app;

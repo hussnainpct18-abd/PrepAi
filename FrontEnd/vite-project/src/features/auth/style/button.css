@@ -1,0 +1,7 @@
+
+.submit{
+    transition: all 0.3s ease-in-out;
+}
+.submit:active{
+    transform:scale(0.9);
+}
