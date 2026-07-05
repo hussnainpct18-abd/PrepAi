@@ -83,6 +83,10 @@ Job Description: ${jobDescription}`;
                         type: "NUMBER",
                         description: "A score between 0 and 100 indicating how well the candidate matches the job"
                     },
+                    title: {
+                        type: "STRING",
+                        description: "Title of the Job"
+                    },
                     technicalQuestion: {
                         type: "ARRAY",
                         description: "Technical questions for the interview",
@@ -141,7 +145,7 @@ Job Description: ${jobDescription}`;
                         }
                     }
                 },
-                required: ["score", "technicalQuestion", "behaviouralQuestion", "skillGaps", "prepationPlan"]
+                required: ["score","title" ,"technicalQuestion", "behaviouralQuestion", "skillGaps", "prepationPlan"]
             }
         }
     });
