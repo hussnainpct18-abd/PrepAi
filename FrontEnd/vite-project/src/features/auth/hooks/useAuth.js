@@ -2,6 +2,7 @@ import { useContext,useEffect } from "react"
 import { AuthContext } from "../services/auth.context"
 import { login, logout, register } from "../api/auth.api";
 import { getMe } from "../api/auth.api";
+import { generateInterview } from "../../interview/api/generate";
 
 
 export const useAuth = () => {
@@ -55,6 +56,12 @@ export const useAuth = () => {
 
     }
 
+    const handleInterviewReport= async ({jobDescription,selfDescription,file})=>{
+        setLoading(true);
+        const response=awaitgenerateInterview({jobDescription,selfDescription,file});
+        return response;
+    } 
+
     useEffect(() => {
         const getUserandSet = async () => {
             const data = await getMe();
@@ -66,5 +73,5 @@ export const useAuth = () => {
     }, [])
 
 
-    return { user, loading, handleLogin, handleRegister, handleLogout }
+    return { user, loading, handleLogin, handleRegister, handleLogout, handleInterviewReport }
 }

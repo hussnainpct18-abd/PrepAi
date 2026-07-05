@@ -82,6 +82,10 @@ const reportSchema=new mongoose.Schema({
         min:0,
         max:100
     },
+    title:{
+        type:String,
+        required:[true,"Job Titke is required"]
+    },
 
     technicalQuestion:[technicalQuestionSchema],
     behaviouralQuestion:[behaviouralQuestionSchema],
