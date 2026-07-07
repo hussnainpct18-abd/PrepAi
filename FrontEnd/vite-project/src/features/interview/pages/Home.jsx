@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import "../styles/styles.css";
 import {useAuth} from "../../auth/hooks/useAuth.js";
-
+import Interview from "./Interview.jsx";
 
 export default function Home() {
 
@@ -38,7 +38,11 @@ export default function Home() {
   const handleGenerate = () => {
     if (!canGenerate) return;
 
-    handleInterviewReport(jobDescription,selfDescription,file);
+  //    console.log(file); // <-- Add this
+  // console.log(file?.name);
+
+    const result =handleInterviewReport({jobDescription,selfDescription,file});
+    <Interview result={result}></Interview>
     // hook up your API call here
     alert("Generating your interview strategy...");
   };

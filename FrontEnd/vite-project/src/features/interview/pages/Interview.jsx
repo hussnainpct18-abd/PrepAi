@@ -42,7 +42,7 @@ const interviewData = {
   ]
 };
 
-export default function Interview() {
+export default function Interview({result}) {
   const [activeView, setActiveView] = useState('full');
   const progressOffset = 141.3 - (141.3 * interviewData.score) / 100;
 
