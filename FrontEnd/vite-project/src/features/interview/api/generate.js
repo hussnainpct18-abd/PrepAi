@@ -15,12 +15,12 @@ import axios from "axios";
             formdata.append("resume",file);
         }
 
-        const response = await api.post("/api/interview/",formdata,{
+        const response = await api.post("/api/interview/generate",formdata,{
             headers:{
                 "Content-Type":"multipart/form-data"
             }
         })
-        return response.data.interviewReport;
+        return response.data.report;
     }
      catch (e) {
         console.log(e);

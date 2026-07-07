@@ -1,77 +1,86 @@
-import { useContext,useEffect } from "react"
-import { AuthContext } from "../services/auth.context"
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../services/auth.context";
 import { login, logout, register } from "../api/auth.api";
 import { getMe } from "../api/auth.api";
 import { generateInterview } from "../../interview/api/generate";
 
-
 export const useAuth = () => {
+  const context = useContext(AuthContext);
 
-    const context = useContext(AuthContext)
+  const { user, setUser, loading, setLoading } = context;
 
-    const { user, setUser, loading, setLoading } = context;
+  const handleLogin = async ({ username, email, password }) => {
+    setLoading(true);
+    try {
+      const data = await login({ username, email, password });
 
-    const handleLogin = async ({ username, email, password }) => {
-
-        setLoading(true);
-        try {
-            const data = await login({ username, email, password })
-
-            console.log(data)
-            setUser(data.user)
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoading(false)
-        }
-
+      console.log(data);
+      setUser(data.user);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleRegister = async ({ username, email, password }) => {
-
-        setLoading(true);
-        try {
-            const data = await register({ username, email, password })
-            setUser(data.user)
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoading(false)
-        }
-
+  const handleRegister = async ({ username, email, password }) => {
+    setLoading(true);
+    try {
+      const data = await register({ username, email, password });
+      setUser(data.user);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleLogout = async () => {
-
-        setLoading(true);
-        try {
-            const msg = await logout()
-            setUser(null)
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoading(false)
-
-        }
-
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      const msg = await logout();
+      setUser(null);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleInterviewReport= async ({jobDescription,selfDescription,file})=>{
-        setLoading(true);
-        const response=awaitgenerateInterview({jobDescription,selfDescription,file});
-        return response;
-    } 
+  const handleInterviewReport = async ({
+    jobDescription,
+    selfDescription,
+    file,
+  }) => {
+    setLoading(true);
+    try {
+      const response = await generateInterview({
+        jobDescription,
+        selfDescription,
+        file,
+      });
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    useEffect(() => {
-        const getUserandSet = async () => {
-            const data = await getMe();
-            setUser(data.user)
-            setLoading(false)
-        }
-        getUserandSet();
+  // useEffect(() => {
+  //     const getUserandSet = async () => {
+  //         const data = await getMe();
+  //         // setUser(data.user)
+  //         setLoading(false)
+  //     }
+  //     getUserandSet();
 
-    }, [])
+  // }, [])
 
-
-    return { user, loading, handleLogin, handleRegister, handleLogout, handleInterviewReport }
-}
+  return {
+    user,
+    loading,
+    handleLogin,
+    handleRegister,
+    handleLogout,
+    handleInterviewReport,
+  };
+};
