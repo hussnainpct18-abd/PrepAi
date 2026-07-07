@@ -35,6 +35,8 @@ export default function Home() {
     handleFile(f);
   };
 
+  
+
   const handleGenerate = () => {
     if (!canGenerate) return;
 
