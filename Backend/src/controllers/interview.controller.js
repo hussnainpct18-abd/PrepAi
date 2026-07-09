@@ -3,8 +3,9 @@ const generateReport = require("../services/ai.services");
 const reportModel = require("../models/report.model");
 
 async function interviewReportGenerator(req, res) {
+  try{
   const { jobDescription, selfDescription } = req.body;
-
+    console.log(req.file);
   const pdfData = await pdfParser(req.file.buffer);
   const textContent = pdfData.text;
 
@@ -21,11 +22,15 @@ async function interviewReportGenerator(req, res) {
     selfDescription: selfDescription,
     ...interviewReportByAI,
   });
-
+  console.log(interviewReportByAI);
   res.status(201).json({
     message: "Interview report created successfully",
-    interviewReport,
+    report:interviewReport,
   });
+  }catch(e){
+    console.log(e);
+  }
+
 }
 
 async function getInterviewReportById(req, res) {
