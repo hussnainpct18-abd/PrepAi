@@ -7,7 +7,7 @@ const interviewRouter=express.Router();
 
 // route to GEnerate the interview Report
 
-interviewRouter.post('/',authToken,upload.single("resume"),interviewReportGenerator);
+interviewRouter.post('/generate',authToken,upload.single("resume"),interviewReportGenerator);
 
 // Interview report by Id
 interviewRouter.get('/:interviewId',authToken,getInterviewReportById);

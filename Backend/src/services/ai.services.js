@@ -145,7 +145,7 @@ Job Description: ${jobDescription}`;
                         }
                     }
                 },
-                required: ["score","title" ,"technicalQuestion", "behaviouralQuestion", "skillGaps", "prepationPlan"]
+                required: ["score","title" ,"technicalQuestion", "behaviouralQuestion", "skillGaps", "preparationPlan"]
             }
         }
     });
