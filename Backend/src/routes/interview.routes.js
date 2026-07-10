@@ -9,11 +9,11 @@ const interviewRouter=express.Router();
 
 interviewRouter.post('/generate',authToken,upload.single("resume"),interviewReportGenerator);
 
+// Get all interview reports — MUST come before /:interviewId so it doesn't get caught by the param route
+interviewRouter.get('/reports',authToken,getAllInterviewReports);
+
 // Interview report by Id
 interviewRouter.get('/:interviewId',authToken,getInterviewReportById);
-
-// Get all inteview reports
-interviewRouter.get('/reports',authToken,getAllInterviewReports);
 
 
 

@@ -5,19 +5,23 @@ const reportModel = require("../models/report.model");
 async function interviewReportGenerator(req, res) {
   try{
   const { jobDescription, selfDescription } = req.body;
+  let resumeText = "";
+
+  if (req.file) {
     console.log(req.file);
-  const pdfData = await pdfParser(req.file.buffer);
-  const textContent = pdfData.text;
+    const pdfData = await pdfParser(req.file.buffer);
+    resumeText = pdfData.text;
+  }
 
   const interviewReportByAI = await generateReport({
-    resume: textContent.text,
+    resume: resumeText,
     jobDescription: jobDescription,
     selfDescription: selfDescription,
   });
 
   const interviewReport = await reportModel.create({
     user: req.user.id,
-    resume: textContent.text,
+    resume: resumeText,
     jobDescription: jobDescription,
     selfDescription: selfDescription,
     ...interviewReportByAI,
@@ -29,6 +33,7 @@ async function interviewReportGenerator(req, res) {
   });
   }catch(e){
     console.log(e);
+    res.status(500).json({ message: "Failed to generate interview report", error: e.message });
   }
 
 }
@@ -69,7 +74,7 @@ const userId = req.user.id;
 
   return res.status(200).json({
     message: "Interview Reports Fetched Successfully",
-    interviewReports: interviewReports,
+    Reports: interviewReports,
   });
     }catch(e){
         console.log(e);
