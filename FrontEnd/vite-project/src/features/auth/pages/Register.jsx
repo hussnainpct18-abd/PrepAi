@@ -13,10 +13,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister({username,email,password});
-    navigate("/")
+    const result = await handleRegister({ username, email, password });
+    if (result) {
+      navigate("/home");
+    }
   }
 
   if(loading){

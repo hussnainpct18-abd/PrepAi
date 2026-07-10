@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../services/auth.context";
 import { login, logout, register } from "../api/auth.api";
 import { getMe } from "../api/auth.api";
-import { generateInterview } from "../../interview/api/generate";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -13,9 +12,10 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const data = await login({ username, email, password });
-
-      console.log(data);
-      setUser(data.user);
+      if (data && data.user) {
+        setUser(data.user);
+        return data.user;
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -27,7 +27,10 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const data = await register({ username, email, password });
-      setUser(data.user);
+      if (data && data.user) {
+        setUser(data.user);
+        return data.user;
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -38,7 +41,7 @@ export const useAuth = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      const msg = await logout();
+      await logout();
       setUser(null);
     } catch (err) {
       console.log(err);
@@ -47,33 +50,19 @@ export const useAuth = () => {
     }
   };
 
-  const handleInterviewReport = async ({
-    jobDescription,
-    selfDescription,
-    file,
-  }) => {
+  const handleGetMe = async () => {
     setLoading(true);
     try {
-      const response = await generateInterview({
-        jobDescription,
-        selfDescription,
-        file,
-      });
-      return response;
-    } catch (e) {
-      console.log(e);
+      const data = await getMe();
+      if (data && data.user) {
+        setUser(data.user);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //     const getUserandSet = async () => {
-  //         const data = await getMe();
-  //         // setUser(data.user)
-  //         setLoading(false)
-  //     }
-  //     getUserandSet();
-
-  // }, [])
 
   return {
     user,
@@ -81,6 +70,6 @@ export const useAuth = () => {
     handleLogin,
     handleRegister,
     handleLogout,
-    handleInterviewReport,
+    handleGetMe,
   };
 };

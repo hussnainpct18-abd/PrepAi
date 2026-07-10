@@ -1,18 +1,17 @@
 import { useState, useRef } from "react";
 import "../styles/styles.css";
-import {useAuth} from "../../auth/hooks/useAuth.js";
-import Interview from "./Interview.jsx";
+import { useInterview } from "../hook/useInterview.js";
+import { useNavigate } from "react-router";
 
 export default function Home() {
-
- const { loading,handleInterviewReport } =useAuth();
-
-
+  const navigate = useNavigate();
+  const { loading, handleInterviewReport } = useInterview();
 
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const [file, setFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const fileInputRef = useRef(null);
 
   const MAX_JD = 5000;
@@ -35,23 +34,22 @@ export default function Home() {
     handleFile(f);
   };
 
-  
+  const handleGenerate = async () => {
+    if (!canGenerate || generating) return;
 
-  const handleGenerate = () => {
-    if (!canGenerate) return;
-
-  //    console.log(file); // <-- Add this
-  // console.log(file?.name);
-
-    const result =handleInterviewReport({jobDescription,selfDescription,file});
-    <Interview result={result}></Interview>
-    // hook up your API call here
-    alert("Generating your interview strategy...");
+    setGenerating(true);
+    try {
+      const result = await handleInterviewReport({ jobDescription, selfDescription, file });
+      if (result && result._id) {
+        navigate(`/interview/${result._id}`);
+      }
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong while generating. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
   };
-
-  if (loading){
-    return (<main>Loading......</main>)
-  }
 
   return (
     <>
@@ -230,7 +228,7 @@ export default function Home() {
           <button
             className="cta-btn"
             onClick={handleGenerate}
-            disabled={!canGenerate}
+            disabled={!canGenerate || generating}
           >
             <svg
               viewBox="0 0 24 24"
@@ -244,7 +242,7 @@ export default function Home() {
                 d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
               />
             </svg>
-            Generate My Interview Strategy
+            {generating ? "Generating... Please Wait" : "Generate My Interview Strategy"}
           </button>
         </div>
 

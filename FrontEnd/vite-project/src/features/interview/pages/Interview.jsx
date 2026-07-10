@@ -1,49 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/styles.css';
+import { useParams } from 'react-router';
+import { useInterview } from '../hook/useInterview.js';
 
-const interviewData = {
-  score: 85,
-  title: 'Senior Full-Stack Developer',
-  technicalQuestion: [
-    {
-      question: 'How would you optimize a slow Node.js API?',
-      intentions: 'Assess backend performance tuning skills',
-      answer: 'I would profile the bottlenecks, add caching, optimize DB queries, and use clustering or worker threads where needed.'
-    },
-    {
-      question: 'Explain how React state updates work under the hood.',
-      intentions: 'Check front-end rendering understanding',
-      answer: 'React re-renders components after state changes, uses reconciliation to compare the virtual DOM and apply minimal updates.'
-    }
-  ],
-  behaviouralQuestion: [
-    {
-      question: 'Tell me about a difficult project you handled under pressure.',
-      intentions: 'Measure ownership and communication',
-      answer: 'I broke the problem into milestones, aligned the team, and kept stakeholders updated with clear progress reports.'
-    }
-  ],
-  skillGaps: [
-    { skill: 'Redis', severity: 'high' },
-    { skill: 'Message queue', severity: 'medium' },
-    { skill: 'Event loop', severity: 'low' }
-  ],
-  preparationPlan: [
-    {
-      day: 1,
-      focus: 'System design fundamentals',
-      tasks: ['Review scalability patterns', 'Practice API design questions']
-    },
-    {
-      day: 2,
-      focus: 'Frontend deep dive',
-      tasks: ['Rebuild a React performance example', 'Study state management trade-offs']
-    }
-  ]
-};
 
-export default function Interview({result}) {
+export default function Interview() {
+  const { report, loading, handleGetReportById } = useInterview();
+  const { interviewId } = useParams();
   const [activeView, setActiveView] = useState('full');
+
+  useEffect(() => {
+    if (!report && interviewId) {
+      handleGetReportById(interviewId);
+    }
+  }, [report, interviewId]); // Added dependencies safely without causing infinite loops if handleGetReportById changes, we can rely on it not changing or being stable in context
+
+  if (loading || !report) {
+    return (
+      <div className="interview-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <h2>Loading Interview Report...</h2>
+      </div>
+    );
+  }
+
+  const interviewData = {
+    score: report?.score || 0,
+    title: report?.title || 'Untitled',
+    technicalQuestion: report?.technicalQuestion || [],
+    behaviouralQuestion: report?.behaviouralQuestion || report?.behavioralQuestions || [],
+    skillGaps: report?.skillGaps || [],
+    preparationPlan: report?.preparationPlan || []
+  };
+
   const progressOffset = 141.3 - (141.3 * interviewData.score) / 100;
 
   const renderMainContent = () => {

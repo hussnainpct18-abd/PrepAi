@@ -1,5 +1,6 @@
-import { Context, useContext } from "react";
+import { useContext } from "react";
 import { InterviewContext } from "../services/interview.context.jsx";
+import { generateInterview, getInterviewById, getAllInterviewReports } from "../api/generate.js";
 
 export const useInterview = () => {
   const context = useContext(InterviewContext);
@@ -7,7 +8,7 @@ export const useInterview = () => {
   const { loading, setLoading, report, setReport, allReports, setAllReports } =
     context;
 
-  const handleInterviewReport = async (jobDescription, selfDescription, file) => {
+  const handleInterviewReport = async ({ jobDescription, selfDescription, file }) => {
     setLoading(true);
     try {
       const interviewReport = await generateInterview({
@@ -16,6 +17,7 @@ export const useInterview = () => {
         file,
       });
       setReport(interviewReport);
+      return interviewReport;
     } catch (e) {
       console.log(e);
     } finally {
