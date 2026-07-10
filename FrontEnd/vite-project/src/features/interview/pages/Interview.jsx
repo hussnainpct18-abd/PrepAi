@@ -1,37 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import '../styles/styles.css';
-import { useParams } from 'react-router';
-import { useInterview } from '../hook/useInterview.js';
+import { InterviewContext } from '../services/interview.context';
 
 
 export default function Interview() {
-  const { report, loading, handleGetReportById } = useInterview();
-  const { interviewId } = useParams();
-  const [activeView, setActiveView] = useState('full');
-
-  useEffect(() => {
-    if (!report && interviewId) {
-      handleGetReportById(interviewId);
-    }
-  }, [report, interviewId]); // Added dependencies safely without causing infinite loops if handleGetReportById changes, we can rely on it not changing or being stable in context
-
-  if (loading || !report) {
-    return (
-      <div className="interview-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <h2>Loading Interview Report...</h2>
-      </div>
-    );
-  }
+  const context = useContext(InterviewContext);
+  const { report } = context;
 
   const interviewData = {
-    score: report?.score || 0,
-    title: report?.title || 'Untitled',
-    technicalQuestion: report?.technicalQuestion || [],
-    behaviouralQuestion: report?.behaviouralQuestion || report?.behavioralQuestions || [],
-    skillGaps: report?.skillGaps || [],
-    preparationPlan: report?.preparationPlan || []
+    score: report?.score ?? 0,
+    title: report?.title ?? "",
+    technicalQuestion: report?.technicalQuestion ?? [],
+    behaviouralQuestion: report?.behaviouralQuestion ?? [],
+    skillGaps: report?.skillGaps ?? [],
+    preparationPlan: report?.preparationPlan ?? []
   };
 
+  const [activeView, setActiveView] = useState('full');
   const progressOffset = 141.3 - (141.3 * interviewData.score) / 100;
 
   const renderMainContent = () => {
@@ -59,6 +44,8 @@ export default function Interview() {
         </div>
       );
     }
+
+
 
     if (activeView === 'plan') {
       return (
@@ -214,7 +201,7 @@ export default function Interview() {
           >
             Road Map
           </button>
-          
+
         </nav>
       </aside>
 
