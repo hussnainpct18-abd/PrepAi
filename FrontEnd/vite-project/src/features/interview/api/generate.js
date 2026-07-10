@@ -40,7 +40,7 @@ import axios from "axios";
             const response= await api.get(`/api/interview/${interviewId}`);
 
             if(response.status===200){
-                return response.report;
+                return response.data.report || response.data;
             }
         }catch(e){
             console.log(e);
@@ -52,7 +52,7 @@ import axios from "axios";
             const response=await api.get('/api/interview/reports')
 
             if(response.status===200){
-                return response.interviewReports;
+                return response.data.interviewReports || response.data;
             }
         }catch(e){console.log(e);}
     }
