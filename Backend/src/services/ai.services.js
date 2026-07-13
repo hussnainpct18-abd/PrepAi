@@ -113,6 +113,20 @@ Job Description: ${jobDescription}`;
                             required: ["question", "intentions", "answer"]
                         }
                     },
+
+                    interviewQuestion: {
+                        type: "ARRAY",
+                        description: "Interview questions for the candidate",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                question: { type: "STRING" },
+                                intentions: { type: "STRING" },
+                                answer: { type: "STRING" }
+                            },
+                            required: ["question", "intentions", "answer"]
+                        }
+                    },
                     skillGaps: {
                         type: "ARRAY",
                         description: "Skill gaps in the candidate profile",
@@ -145,7 +159,7 @@ Job Description: ${jobDescription}`;
                         }
                     }
                 },
-                required: ["score","title" ,"technicalQuestion", "behaviouralQuestion", "skillGaps", "preparationPlan"]
+                required: ["score", "title", "technicalQuestion", "behaviouralQuestion", "interviewQuestion", "skillGaps", "preparationPlan"]
             }
         }
     });

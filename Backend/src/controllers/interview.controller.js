@@ -64,7 +64,8 @@ async function getAllInterviewReports(req, res) {
     try{
 const userId = req.user.id;
 
-  const interviewReports = await reportModel.find({ user: userId });
+  const interviewReports = await reportModel.find({ user: userId })
+                                            .sort({createdAt:-1})
 
   if (!interviewReports) {
     return res.status(404).json({
