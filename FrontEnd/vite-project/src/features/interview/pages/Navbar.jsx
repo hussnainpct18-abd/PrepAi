@@ -57,7 +57,7 @@ const Navbar = () => {
     }
 
     .nav-btn-secondary:hover {
-      background: rgba(224, 72, 90, 0.12);
+      background: #0d0d0f;
       border-color: #e0485a;
       transform: translateY(-2px);
     }

@@ -15,10 +15,10 @@ export const router = createBrowserRouter([
         path: '/register',
         element: <Register />
     },
-    // {
-    //     path: '/',
-    //     element: <Protected></Protected>
-    // },
+    {
+        path: '/',
+        element: <Protected><Home /></Protected>
+    },
     {
         path: '/home',
         element: <Protected><Home /></Protected>

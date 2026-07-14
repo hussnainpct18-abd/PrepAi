@@ -1,3 +1,7 @@
+// This code is just for the information purpose like how things will have to work with zod schema it was showing somw errors with zod 
+// so i have to hardcode the schema
+
+
 // const { GoogleGenAI } = require("@google/genai");
 // const { z } = require("zod");
 // const { zodToJsonSchema } = require("zod-to-json-schema");
