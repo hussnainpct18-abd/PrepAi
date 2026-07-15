@@ -291,7 +291,7 @@ export default function Interview() {
             className={`nav-item ${activeView === 'full' ? 'active' : ''}`}
             onClick={() => setActiveView('full')}
           >
-            Whole Report
+             Report
           </button>
           <button
             className={`nav-item ${activeView === 'technical' ? 'active' : ''}`}

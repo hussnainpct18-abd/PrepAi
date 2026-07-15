@@ -4,6 +4,7 @@ import { useInterview } from "../hook/useInterview.js";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../auth/hooks/useAuth.js";
 import Navbar from "./Navbar.jsx";
+import Loading from "./Loading.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ export default function Home() {
 
   return (
     <>
+     {generating && <Loading/>}
       {/* <style>{styles}</style> */}
       <div className="page">
         {/* NAV */}
