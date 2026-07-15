@@ -169,7 +169,7 @@ Job Description: ${jobDescription}`;
     });
 
     const parsed = JSON.parse(response.text);
-    console.log(parsed);
+    // console.log(parsed);
     return parsed;
 }
 
