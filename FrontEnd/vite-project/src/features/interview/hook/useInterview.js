@@ -45,7 +45,7 @@ export const useInterview = () => {
 
         const reports = await getAllInterviewReports();
         setAllReports(reports);
-        console.log(reports);
+        // console.log(reports);
 
     }catch(e){
         console.log(e);

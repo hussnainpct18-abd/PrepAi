@@ -8,7 +8,7 @@ async function interviewReportGenerator(req, res) {
   let resumeText = "";
 
   if (req.file) {
-    console.log(req.file);
+    // console.log(req.file);
     const pdfData = await pdfParser(req.file.buffer);
     resumeText = pdfData.text;
   }
@@ -26,7 +26,7 @@ async function interviewReportGenerator(req, res) {
     selfDescription: selfDescription,
     ...interviewReportByAI,
   });
-  console.log(interviewReportByAI);
+  // console.log(interviewReportByAI);
   res.status(201).json({
     message: "Interview report created successfully",
     report:interviewReport,
