@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useInterview } from "../hook/useInterview";
 import { useNavigate } from "react-router";
 import "../styles/styles.css";
+import PageTransitionLoader from "../../auth/pages/Transition";
 
 function formatDate(dateString) {
   if (!dateString) return "Unknown date";
@@ -31,10 +32,7 @@ export default function ReportsDashboard() {
 
   if (loading) {
     return (
-      <div className="reports-page reports-loading">
-        <div className="reports-loading-spinner" />
-        <h2>Loading your reports...</h2>
-      </div>
+      <PageTransitionLoader></PageTransitionLoader>
     );
   }
 
